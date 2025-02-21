@@ -13,15 +13,15 @@ public class CatalogPlacements {
 
         for (String filename : filenames) {
             try {
-                // Read and parse JSON file
+                
                 JSONObject jsonData = (JSONObject) new JSONParser().parse(new FileReader(filename));
 
-                // Extract keys (n and k)
+                
                 JSONObject keys = (JSONObject) jsonData.get("keys");
                 int n = Integer.parseInt(keys.get("n").toString());
                 int k = Integer.parseInt(keys.get("k").toString());
 
-                // Extract and decode (x, y) pairs
+                
                 List<double[]> points = new ArrayList<>();
                 for (Object key : jsonData.keySet()) {
                     if (!key.equals("keys")) {
@@ -33,10 +33,10 @@ public class CatalogPlacements {
                     }
                 }
 
-                // Sort points based on x value
+               
                 points.sort(Comparator.comparingDouble(p -> p[0]));
 
-                // Select the first k points required for interpolation
+              
                 double[][] selectedPoints = new double[k][2];
                 for (int i = 0; i < k; i++) {
                     selectedPoints[i] = points.get(i);
@@ -53,7 +53,6 @@ public class CatalogPlacements {
         }
     }
 
-    // Lagrange Interpolation to find the constant term (c)
     public static double lagrangeInterpolation(double[][] points) {
         double secret = 0.0;
         int k = points.length;
